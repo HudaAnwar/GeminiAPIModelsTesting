@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GeminiAPIModelsTesting</string>
+    <string name="action_go">Go</string>
+    <string name="story_brief_label">Story about</string>
+    <string name="story_brief_hint">Enter text describing the story you want generated</string>
+    <string name="text_and_image_prompt_label">Prompt text</string>
+    <string name="text_and_image_prompt_hint">What do you need to know about this image?</string>
+</resources>
