@@ -29,9 +29,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.geminiapimodelstesting.chat.ChatRoute
+import com.example.geminiapimodelstesting.chat.ChatViewModel
 import com.example.geminiapimodelstesting.text.TextRoute
+import com.example.geminiapimodelstesting.text.TextViewModel
 import com.example.geminiapimodelstesting.textandimage.TextAndImageRoute
+import com.example.geminiapimodelstesting.textandimage.TextAndImageViewModel
 import com.example.geminiapimodelstesting.ui.theme.GeminiAPIModelsTestingTheme
+import com.google.ai.client.generativeai.GenerativeModel
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -46,10 +50,21 @@ class MainActivity : ComponentActivity() {
                     bottomBar = { BottomBar(navController) },
                     modifier = Modifier.padding(top = 24.dp)
                 ) {
+                    val generativeProModel = GenerativeModel(
+                        modelName = "gemini-pro",
+                        apiKey = BuildConfig.apiKey
+                    )
+                    val generativeProVisionModel = GenerativeModel(
+                        modelName = "gemini-pro-vision",
+                        apiKey = BuildConfig.apiKey
+                    )
+                    val textViewModel = TextViewModel(generativeProModel)
+                    val chatViewModel = ChatViewModel(generativeProModel)
+                    val textAndImageViewModel = TextAndImageViewModel(generativeProVisionModel)
                     NavHost(navController, startDestination = NavigationDestination.Text.route) {
-                        composable(NavigationDestination.Text.route) { TextRoute() }
-                        composable(NavigationDestination.TextAndImage.route) { TextAndImageRoute() }
-                        composable(NavigationDestination.Chat.route) { ChatRoute() }
+                        composable(NavigationDestination.Text.route) { TextRoute(textViewModel) }
+                        composable(NavigationDestination.TextAndImage.route) { TextAndImageRoute(textAndImageViewModel) }
+                        composable(NavigationDestination.Chat.route) { ChatRoute(chatViewModel) }
                     }
                 }
             }
